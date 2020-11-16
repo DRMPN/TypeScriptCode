@@ -48,8 +48,10 @@ export class Level extends Base {
         this.obstacles = [];
         this.decorations = [];
         this.items = [];
-        this.coinGauge = new Gauge('coin', 0, 0, 10, 4, true);
-        this.liveGauge = new Gauge('live', 0, 430, 6, 6, true);
+        // this.coinGauge = new Gauge('coin', 0, 0, 10, 4, true);
+        // this.liveGauge = new Gauge('live', 0, 430, 6, 6, true);
+        this.coinGauge = new Gauge($('#coin'), 0, 0, 10, 4, true)
+        this.liveGauge = new Gauge($('#live'), 0, 430, 6, 6, true)
     }
 
     reload() {
@@ -183,6 +185,16 @@ export class Level extends Base {
             return;
         }
 
+        this.tickFigures();
+        
+        for (var i = this.items.length; i--;)
+            this.items[i].playFrame();
+
+        this.coinGauge.playFrame();
+        this.liveGauge.playFrame();
+    }
+
+    tickFigures() {
         for (var i = this.figures.length; i--;) {
             var figure = this.figures[i];
 
@@ -216,12 +228,6 @@ export class Level extends Base {
                 figure.playFrame();
             }
         }
-
-        for (var i = this.items.length; i--;)
-            this.items[i].playFrame();
-
-        this.coinGauge.playFrame();
-        this.liveGauge.playFrame();
     }
 
     start() {
